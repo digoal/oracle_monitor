@@ -1,0 +1,53 @@
+EXAMPLE : 
+
+Requirement : 
+1. 部署这些监控脚本的监控机与被监控的主机网络互通
+2. 部署监控脚本的机器需要安装Oracle客户端, 需要使用sqlplus
+
+Install : 
+1. 安装Oracle客户端
+
+2. 创建放置脚本的目录, 如 : 
+mkdir -p /home/oracle/monitorsh/log
+脚本放在/home/oracle/monitorsh
+日志放在/home/oracle/monitorsh/log
+
+3. 上传脚本至/home/oracle/monitorsh
+
+4. 修改env.sh配置文件, 添加信息
+   4.1 要监控的IP,端口 
+   4.2 Oracle URL
+   4.3 在被监控的Oracle里面创建监控账号如db_monitor, 赋予connect, select_catalog_role 权限.
+   4.4 配置监控发送到哪个邮箱
+   4.5 配置用户密码
+   4.6 配置本地环境变量
+
+5. 配置muttrc
+vi ~/.muttrc 
+set envelope_from=yes
+set from=digoal@126.com
+set realname="DB Monitor"
+set use_from=yes
+set charset="GBK"
+
+6. 配置主机网络, 使它可以发送邮件
+
+7. 测试
+执行脚本进行测试写日志和邮件发送是否正确.
+
+8. 配置crontab, 每隔多长时间自动调用这些脚本.
+crontab -e
+# DB MONITOR
+*/15 * * * * /home/oracle/monitorsh/job_idx_comp.sh
+*/3 * * * * /home/oracle/monitorsh/listener.sh
+*/30 * * * * /home/oracle/monitorsh/session.sh
+*/20 * * * * /home/oracle/monitorsh/tbs_dgs.sh
+1 * * * * /home/oracle/monitorsh/asm_usage.sh
+4 * * * * /home/oracle/monitorsh/jobs_mon.sh
+4 11 * * 0 /home/oracle/monitorsh/partition_notify.sh
+
+
+
+# Author : Digoal zhou
+# Email : digoal@126.com
+# Blog : http://blog.163.com/digoal@126/
