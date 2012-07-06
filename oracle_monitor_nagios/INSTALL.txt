@@ -1,0 +1,25 @@
+EXAMPLE : 
+1. nagios客户端安装略
+
+2. 编辑监控脚本
+/home/oracle/monitorsh/job_nagios.sh
+/home/oracle/monitorsh/tbs_dgs_nagios.sh
+chmod 555 /home/oracle/monitorsh/job_nagios.sh
+chmod 555 /home/oracle/monitorsh/tbs_dgs_nagios.sh
+
+2. 编辑nrpe.cfg
+vi /usr/local/nagios/etc/nrpe.cfg
+command[check_db_job1]=/home/oracle/monitorsh/job_nagios.sh TNS_IDC1_APP2_RAC1_ORA
+command[check_db_job2]=/home/oracle/monitorsh/job_nagios.sh TNS_IDC1_APP2_RAC2_ORA
+command[check_db_job3]=/home/oracle/monitorsh/job_nagios.sh TNS_IDC4_APP1_ORA
+command[check_db_tbs1]=/home/oracle/monitorsh/tbs_dgs_nagios.sh TNS_IDC1_APP2_RAC1_ORA
+command[check_db_tbs2]=/home/oracle/monitorsh/tbs_dgs_nagios.sh TNS_IDC1_APP2_RAC2_ORA
+command[check_db_tbs3]=/home/oracle/monitorsh/tbs_dgs_nagios.sh TNS_IDC4_APP1_ORA
+
+3. 重启xinetd 服务
+
+4. nagios服务端配置添加check_db_job1, check_db_job2, check_db_job3, check_db_tbs1, check_db_tbs2, check_db_tbs3 的监控项
+
+# Author : Digoal zhou
+# Email : digoal@126.com
+# Blog : http://blog.163.com/digoal@126/
